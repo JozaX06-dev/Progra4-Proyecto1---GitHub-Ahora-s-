@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Este head se usa en todas las páginas-->
+        <title>Registro de contraseña</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    </head>
+    <body style="background-color: #080f15; min-height: 100vh; display: flex; flex-direction: column;">
+        <!-- Navegador -->
+        <nav style="background-color: rgb(35, 46, 46);">
+            <ul class="nav nav-tabs w-100">
+            <li class="nav-item">
+                <a class="nav-link" href="MenuPartePublica.html">
+                    <i class="fa-solid fa-briefcase" style="color:rgb(10, 202, 154)"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="MenuPartePublica.html" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="BuscarPuestos.html" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="RegistroEmpresa.html" style="color:rgb(10, 202, 154)">Registro Empresa</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="RegistroOferente.html" style="color:rgb(10, 202, 154)">Registro Oferente</a>
+            </li>
+            <li class="nav-item ms-auto">
+                <a class="nav-link" href="Login.html" style="color:rgb(10, 202, 154)">Login</a>
+            </li>
+            </ul>
+        </nav>
+
+        <main class="flex-grow-1 d-flex align-items-center justify-content-center">
+            <div style="width: 350px;">
+                <div class="card" style="background-color: rgb(35,46,46); border-color: #4a5f5f;">
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <i class="fa-solid fa-user-check" style="color:rgb(10,202,154)"></i>
+                            <h4 class="mt-2" style="color:rgb(10,202,154)">Registro Empresa</h4>
+                        </div>
+                        <form>
+                           <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label" style="color:rgb(10,202,154)">Ingrese la Contraseña</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword2" class="form-label" style="color:rgb(10,202,154)">Confirme la Contraseña</label>
+                                <input type="password" class="form-control" id="exampleInputPassword2">
+                            </div>
+                            <div class="text-center">
+                                <!--Tenemos que cambiar este botón a submit luego-->
+                                <button type="button" class="btn btn-primary px-4">Crear Usuario</button>
+                            </div>
+                            <!--Con el class centramos lo que va a ser el botón y le reducimos 4 pixeles para que se ajuste al contenido-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="py-2" style="background-color: rgb(36, 47, 47);">
+            <div class="d-flex align-items-center px-3">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-briefcase text-white"></i>
+                    <span class="text-white fw-bold">Bolsa de Empleo</span>
+                </div>
+                <div class="ms-auto text-end">
+                    <div class="text-white-50" style="font-size: 0.85rem;">
+                        <a href="mailto:jozabad.mejia.esquivel@est.una.ac.cr">
+                            jozabad.mejia.esquivel@est.una.ac.cr
+                        </a>
+                    </div>
+                    <div class="text-white-50" style="font-size: 0.85rem;">
+                        <a href="mailto:jozabad.mejia.esquivel@est.una.ac.cr">
+                            hernan.sanchez.chavez@est.una.ac.cr
+                        </a>
+                    </div>
+                    <div class="text-white-50" style="font-size: 0.85rem;">Créditos: Jozabad Mejía y Hernán Sánchez</div>
+                </div>
+            </div>
+        </footer>
+        </body>
+</html>
