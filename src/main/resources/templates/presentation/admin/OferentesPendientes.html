@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Mis Puestos</title>
+    <title>Oferentes Pendientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
@@ -9,7 +9,7 @@
     <nav style="background-color: rgb(35, 46, 46);">
         <ul class="nav nav-tabs w-100">
             <li class="nav-item">
-                <a class="nav-link" href="MisPuestos.html">
+                <a class="nav-link" href="AdminDashboard.html">
                     <i class="fa-solid fa-briefcase" style="color:rgb(10, 202, 154)"></i>
                 </a>
             </li>
@@ -17,13 +17,19 @@
                 <span class="nav-link fw-bold" style="color:rgb(10, 202, 154)">Bolsa de Empleo</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="EmpresaDashboard.html" style="color:rgb(10, 202, 154)">Dashboard</a>
+                <a class="nav-link" href="AdminDashboard.html" style="color:rgb(10, 202, 154)">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="MisPuestos.html" style="color:rgb(10, 202, 154)">Mis Puestos</a>
+                <a class="nav-link" href="EmpresasPendientes.html" style="color:rgb(10, 202, 154)">Empresas Pendinetes</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="PublicarPuesto.html" style="color:rgb(10, 202, 154)">Publicar Puesto</a>
+                <a class="nav-link active" aria-current="page" href="OferentesPendientes.html" style="color:rgb(10, 202, 154)">Oferentes Pendientes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Caracteristicas.html" style="color:rgb(10, 202, 154)">Caracteristicas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Reportes.html" style="color:rgb(10, 202, 154)">Reportes</a>
             </li>
             <li class="nav-item ms-auto">
                 <span class="nav-link" style="color:rgb(10, 202, 154)">Usuario activo</span>
@@ -35,61 +41,37 @@
     </nav>
     <main class="flex-grow-1">
         <div class="container-fluid px-3 mt-4">
-            <div class="d-flex align-items-center mb-3">
-                <h5 class="text-white">Mis Puestos</h5>
-                <button class="btn ms-auto"
-                        style="background-color:rgb(10,202,154); color:#080f15; font-weight:700;">
-                    <i class="fa-solid fa-plus me-1"></i>
-                    Publicar Puesto
-                </button>
-            </div>
-            <div class="card"
-                 style="background-color: rgb(35,46,46); border-color:#4a5f5f;">
+            <h5 class="text-white mb-3">Oferentes Pendientes</h5>
+            <div class="card" style="background-color:rgb(35,46,46); border-color:#4a5f5f;">
                 <div class="card-body">
-                    <table class="table table-borderless mb-0"
-                           style="color:#cdd9d9; font-size:0.9rem;">
+                    <table class="table table-borderless" style="color:#cdd9d9; font-size:0.9rem;">
                         <thead>
                         <tr style="border-bottom:1px solid #4a5f5f;">
-                            <th style="color:rgb(10,202,154)">ID</th>
-                            <th style="color:rgb(10,202,154)">Puesto</th>
-                            <th style="color:rgb(10,202,154)">Salario</th>
-                            <th style="color:rgb(10,202,154)">Tipo</th>
+                            <th style="color:rgb(10,202,154)">Identificacion</th>
+                            <th style="color:rgb(10,202,154)">Nombre</th>
+                            <th style="color:rgb(10,202,154)">Apellido</th>
+                            <th style="color:rgb(10,202,154)">Correo</th>
+                            <th style="color:rgb(10,202,154)">Telefono</th>
+                            <th style="color:rgb(10,202,154)">Residencia</th>
                             <th class="text-center" style="color:rgb(10,202,154)">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr style="border-bottom:1px solid #2e3e3e;">
-                            <td>1</td>
-                            <td>Desarrollador Java</td>
-                            <td>$1500</td>
-                            <td>Publico</td>
+                            <td>000000000</td>
+                            <td>Nombre</td>
+                            <td>Apellido</td>
+                            <td>correo@email.com</td>
+                            <td>8888-8888</td>
+                            <td>Heredia</td>
                             <td class="text-center">
                                 <button class="btn btn-sm"
-                                        style="background-color:#1c6e5a; color:white;">
-                                    Buscar candidatos
+                                        style="background-color:rgb(10,202,154); color:#080f15; font-weight:700;">
+                                    Aprobar
                                 </button>
                                 <button class="btn btn-sm"
                                         style="background-color:#7a2f2f; color:white;">
-                                    Desactivar
-                                </button>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom:1px solid #2e3e3e;">
-                            <td>2</td>
-                            <td>Disenador Web</td>
-                            <td>$1200</td>
-                            <td>Privado</td>
-
-                            <td class="text-center">
-
-                                <button class="btn btn-sm"
-                                        style="background-color:#1c6e5a; color:white;">
-                                    Buscar candidatos
-                                </button>
-
-                                <button class="btn btn-sm"
-                                        style="background-color:#7a2f2f; color:white;">
-                                    Desactivar
+                                    Rechazar
                                 </button>
                             </td>
                         </tr>
@@ -120,6 +102,5 @@
             </div>
         </div>
     </footer>
-
 </body>
 </html>

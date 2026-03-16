@@ -6,6 +6,88 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body style="background-color: #080f15; min-height: 100vh; display: flex; flex-direction: column;">
-
+     <nav style="background-color: rgb(35, 46, 46);">
+        <ul class="nav nav-tabs w-100">
+          <li class="nav-item">
+            <a class="nav-link" href="AdminDashboard.html">
+              <i class="fa-solid fa-briefcase" style="color:rgb(10, 202, 154)"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <span class="nav-link fw-bold" style="color:rgb(10, 202, 154)">Bolsa de Empleo</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="AdminDashboard.html" style="color:rgb(10, 202, 154)">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="EmpresasPendientes.html" style="color:rgb(10, 202, 154)">Empresas Pendinetes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="OferentesPendientes.html" style="color:rgb(10, 202, 154)">Oferentes Pendientes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Caracteristicas.html" style="color:rgb(10, 202, 154)">Caracteristicas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Reportes.html" style="color:rgb(10, 202, 154)">Reportes</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <span class="nav-link" style="color:rgb(10, 202, 154)">Usuario activo</span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../Menu Público/MenuPartePublica.html" style="color:rgb(10, 202, 154)">Salir</a>
+          </li>
+        </ul>
+      </nav>
+      <main class="flex-grow-1">
+        <div class="container-fluid px-3 mt-4">
+          <h5 class="text-white mb-3">Empresas Pendientes</h5>
+          <div class="card"
+               style="background-color:rgb(35,46,46); border-color:#4a5f5f;">
+            <div class="card-body">
+              <table class="table table-borderless"
+                     style="color:#cdd9d9; font-size:0.9rem;">
+                <thead>
+                <tr style="border-bottom:1px solid #4a5f5f;">
+                  <th style="color:rgb(10,202,154)">Usuario</th>
+                  <th class="text-center" style="color:rgb(10,202,154)">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="border-bottom:1px solid #2e3e3e;">
+                  <td>Usuario@gmail.com</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm"
+                            style="background-color:rgb(10,202,154); color:#080f15; font-weight:700;"> Aprobar y generar clave
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="py-2" style="background-color: rgb(36, 47, 47);">
+        <div class="d-flex align-items-center px-3">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-briefcase text-white"></i>
+            <span class="text-white fw-bold">Bolsa de Empleo</span>
+          </div>
+          <div class="ms-auto text-end">
+            <div class="text-white-50" style="font-size: 0.85rem;">
+              <a href="mailto:jozabad.mejia.esquivel@est.una.ac.cr">
+                jozabad.mejia.esquivel@est.una.ac.cr
+              </a>
+            </div>
+            <div class="text-white-50" style="font-size: 0.85rem;">
+              <a href="mailto:jozabad.mejia.esquivel@est.una.ac.cr">
+                hernan.sanchez.chavez@est.una.ac.cr
+              </a>
+            </div>
+            <div class="text-white-50" style="font-size: 0.85rem;">Creditos: Jozabad Mejia y Hernan Sanchez</div>
+          </div>
+        </div>
+      </footer>
 </body>
 </html>
