@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <!-- Este head se usa en todas las páginas-->
         <title>Registro Oferente</title>
@@ -16,19 +16,19 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="MenuPartePublica.html" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
+                <a class="nav-link" th:href="@{/}" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="BuscarPuestos.html" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
+                <a class="nav-link" th:href="@{/buscarPuestos}" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="RegistroEmpresa.html" style="color:rgb(10, 202, 154)">Registro Empresa</a>
+                <a class="nav-link" th:href="@{/registroEmpresa}" style="color:rgb(10, 202, 154)">Registro Empresa</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="RegistroOferente.html" style="color:rgb(10, 202, 154)">Registro Oferente</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/registroOferente}" style="color:rgb(10, 202, 154)">Registro Oferente</a>
             </li>
             <li class="nav-item ms-auto">
-                <a class="nav-link" href="Login.html" style="color:rgb(10, 202, 154)">Login</a>
+                <a class="nav-link" th:href="@{/login}" style="color:rgb(10, 202, 154)">Login</a>
             </li>
             </ul>
         </nav>
@@ -41,39 +41,45 @@
                             <i class="fa-solid fa-user-check" style="color:rgb(10,202,154)"></i>
                             <h4 class="mt-2" style="color:rgb(10,202,154)">Registro Oferente</h4>
                         </div>
-                        <form>
+                        <form th:action="@{/registroOferente}" method="post">
                             <div class="mb-3">
                                 <label for="identificacion" class="form-label" style="color:rgb(10,202,154)">Identificación</label>
-                                <input type="text" class="form-control" id="identificacion">
+                                <input type="text" class="form-control" id="identificacion" name="identificacion">
                             </div>
                             <!--El class mb-3 lo que hace es agregar un margen inferior, trabaja con números del 0 al 5-->
                             <div class="mb-3">
                                 <label for="nombre" class="form-label" style="color:rgb(10,202,154)">Nombre</label>
-                                <input type="text" class="form-control" id="nombre">
+                                <input type="text" class="form-control" id="nombre" name="nombre">
                             </div>
                             <div class="mb-3">
                                 <label for="apellido" class="form-label" style="color:rgb(10,202,154)">Primer apellido</label>
-                                <input type="text" class="form-control" id="apellido">
+                                <input type="text" class="form-control" id="apellido" name="apellido">
                             </div>
                             <div class="mb-3">
-                                <label for="nacionalidad" class="form-label" style="color:rgb(10,202,154)">Nacionalidad</label>
-                                <input type="text" class="form-control" id="nacionalidad">
+                                <label class="form-label" style="color:rgb(10,202,154)">Nacionalidad</label>
+                                <select class="form-select" name="nacionalidadIso">
+                                    <option value="">Seleccione</option>
+                                    <option th:each="nac : ${nacionalidades}"
+                                            th:value="${nac.iso}"
+                                            th:text="${nac.nombre}">
+                                    </option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label" style="color:rgb(10,202,154)">Telefono/Celular</label>
-                                <input type="text" class="form-control" id="telefono">
+                                <input type="text" class="form-control" id="telefono" name="telefono">
                             </div>
                             <div class="mb-3">
                                 <label for="correo" class="form-label" style="color:rgb(10,202,154)">Correo Electrónico</label>
-                                <input type="email" class="form-control" id="correo">
+                                <input type="email" class="form-control" id="correo" name="correo">
                             </div>
                             <div class="mb-3">
                                 <label for="residencia" class="form-label" style="color:rgb(10,202,154)">Lugar de Residencia</label>
-                                <input type="text" class="form-control" id="residencia">
+                                <input type="text" class="form-control" id="residencia" name="lugarResidencia">
                             </div>
                             <div class="text-center">
                                 <!--Tenemos que cambiar este botón a submit luego-->
-                                <button type="button" class="btn px-4" style="background-color:rgb(10,202,154); color:#080f15; font-weight:600;">Ingresar</button>
+                                <button type="submit" class="btn px-4" style="background-color:rgb(10,202,154); color:#080f15; font-weight:600;">Ingresar</button>
                             </div>
                             <!--Con el class centramos lo que va a ser el botón y le reducimos 4 pixeles para que se ajuste al contenido-->
                         </form>

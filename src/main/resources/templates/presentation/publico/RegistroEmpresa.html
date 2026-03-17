@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <!-- Este head se usa en todas las páginas-->
         <title>Registro Empresa</title>
@@ -11,24 +11,24 @@
         <nav style="background-color: rgb(35, 46, 46);">
             <ul class="nav nav-tabs w-100">
             <li class="nav-item">
-                <a class="nav-link" href="MenuPartePublica.html">
+                <a class="nav-link" th:href="@{/}">
                     <i class="fa-solid fa-briefcase" style="color:rgb(10, 202, 154)"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="MenuPartePublica.html" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
+                <a class="nav-link" th:href="@{/}" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="BuscarPuestos.html" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
+                <a class="nav-link" th:href="@{/buscarPuesto}" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="RegistroEmpresa.html" style="color:rgb(10, 202, 154)">Registro Empresa</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/registroEmpresa}" style="color:rgb(10, 202, 154)">Registro Empresa</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="RegistroOferente.html" style="color:rgb(10, 202, 154)">Registro Oferente</a>
+                <a class="nav-link" th:href="@{/registroOferente}" style="color:rgb(10, 202, 154)">Registro Oferente</a>
             </li>
             <li class="nav-item ms-auto">
-                <a class="nav-link" href="Login.html" style="color:rgb(10, 202, 154)">Login</a>
+                <a class="nav-link" th:href="@{/login}" style="color:rgb(10, 202, 154)">Login</a>
             </li>
             </ul>
         </nav>
@@ -40,31 +40,31 @@
                             <i class="fa-solid fa-user-check" style="color:rgb(10,202,154)"></i>
                             <h4 class="mt-2" style="color:rgb(10,202,154)">Registro Empresa</h4>
                         </div>
-                        <form>
+                        <form th:action="@{/registroEmpresa}" method="post">
                             <div class="mb-3">
                                 <label for="nombreEmpresa" class="form-label" style="color:rgb(10,202,154)">Nombre Empresa</label>
-                                <input type="text" class="form-control" id="nombreEmpresa">
+                                <input type="text" class="form-control" id="nombreEmpresa" name="nombre">
                             </div>
                             <!--El class mb-3 lo que hace es agregar un margen inferior, trabaja con números del 0 al 5-->
                             <div class="mb-3">
                                 <label for="correoEmpresa" class="form-label" style="color:rgb(10,202,154)">Correo Empresa</label>
-                                <input type="email" class="form-control" id="correoEmpresa">
+                                <input type="email" class="form-control" id="correoEmpresa" name="correo">
                             </div>
                             <div class="mb-3">
                                 <label for="localizacion" class="form-label" style="color:rgb(10,202,154)">Localización</label>
-                                <input type="text" class="form-control" id="localizacion">
+                                <input type="text" class="form-control" id="localizacion" name="localizacion">
                             </div>
                             <div class="mb-3">
                                 <label for="telefono" class="form-label" style="color:rgb(10,202,154)">Telefono/Celular</label>
-                                <input type="number" class="form-control" min="8" id="telefono">
+                                <input type="number" class="form-control" min="8" id="telefono" name="telefono">
                             </div>
                             <div class="mb-3">
                                 <label for="descripcion" class="form-label" style="color:rgb(10,202,154)">Descripción</label>
-                                <textarea class="form-control" id="descripcion" rows="3"></textarea>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
                             </div>
                             <div class="text-center">
                                 <!--Tenemos que cambiar este botón a submit luego-->
-                                <button type="button" class="btn px-4" style="background-color:rgb(10,202,154); color:#080f15; font-weight:600;">Ingresar</button>
+                                <button type="submit" class="btn px-4" style="background-color:rgb(10,202,154); color:#080f15; font-weight:600;">Ingresar</button>
                             </div>
                             <!--Con el class centramos lo que va a ser el botón y le reducimos 4 pixeles para que se ajuste al contenido-->
                         </form>
