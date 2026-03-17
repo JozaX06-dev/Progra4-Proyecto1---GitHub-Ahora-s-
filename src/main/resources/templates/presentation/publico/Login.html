@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <!-- Este head se usa en todas las páginas-->
         <title>Login</title>
@@ -11,24 +11,24 @@
         <nav style="background-color: rgb(35, 46, 46);">
             <ul class="nav nav-tabs w-100">
             <li class="nav-item">
-                <a class="nav-link" href="MenuPartePublica.html">
+                <a class="nav-link" th:href="@{/}">
                     <i class="fa-solid fa-briefcase" style="color:rgb(10, 202, 154)"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="MenuPartePublica.html" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
+                <a class="nav-link" th:href="@{/}" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="BuscarPuestos.html" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
+                <a class="nav-link" th:href="@{/buscarPuestos}" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="RegistroEmpresa.html" style="color:rgb(10, 202, 154)">Registro Empresa</a>
+                <a class="nav-link" th:href="@{/registroEmpresa}" style="color:rgb(10, 202, 154)">Registro Empresa</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="RegistroOferente.html" style="color:rgb(10, 202, 154)">Registro Oferente</a>
+                <a class="nav-link" th:href="@{/registroOferente}" style="color:rgb(10, 202, 154)">Registro Oferente</a>
             </li>
             <li class="nav-item ms-auto">
-                <a class="nav-link active" aria-current="page" href="Login.html" style="color:rgb(10, 202, 154)">Login</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/login}" style="color:rgb(10, 202, 154)">Login</a>
             </li>
             </ul>
         </nav>
@@ -41,19 +41,19 @@
                             <i class="fa-solid fa-user-check" style="color:rgb(10,202,154)"></i>
                             <h4 class="mt-2" style="color:rgb(10,202,154)">Login</h4>
                         </div>
-                        <form>
+                        <form th:action="@{/login}" method="post">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label" style="color:rgb(10,202,154)">Usuario</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1">
+                                <label for="exampleInputEmail1" class="form-label" style="color:rgb(10,202,154)">Correo Usuario</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" name="correo">
                             </div>
                             <!--El class mb-3 lo que hace es agregar un margen inferior, trabaja con números del 0 al 5-->
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label" style="color:rgb(10,202,154)">Contraseña</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="clave">
                             </div>
                             <div class="text-center">
                                 <!--Tenemos que cambiar este botón a submit luego-->
-                                <button type="button" class="btn btn-primary px-4">Ingresar</button>
+                                <button type="submit" class="btn btn-primary px-4">Ingresar</button>
                             </div>
                             <!--Con el class centramos lo que va a ser el botón y le reducimos 4 pixeles para que se ajuste al contenido-->
                         </form>
