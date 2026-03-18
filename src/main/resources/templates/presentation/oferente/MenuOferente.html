@@ -28,7 +28,7 @@
                 <a class="nav-link" th:href="@{/...}" style="color:rgb(10, 202, 154)">Mi CV</a>
             </li>
             <li class="nav-item ms-auto">
-                <span class="nav-link" th:text="${oferente.usuario.correo}" style="color:rgb(10,202,154)"></span>
+                <span class="nav-link" th:text="${oferente.nombre}+' '+${oferente.apellido}" style="color:rgb(10,202,154)"></span>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/}" style="color:rgb(10, 202, 154)">Salir</a>
