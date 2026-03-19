@@ -20,4 +20,16 @@ public class Controller {
         model.addAttribute("oferente", oferente);
         return "presentation/oferente/MenuOferente";
     }
+    @GetMapping("/oferente/MisHabilidades")
+    public String showMisHabilidades(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Oferente oferente = service.oferenteFindById(usuario.getId());
+        model.addAttribute("oferente", oferente);
+        return "presentation/oferente/MisHabilidades";
+    }
+    @GetMapping("/salir")
+    public String Salir(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
 }

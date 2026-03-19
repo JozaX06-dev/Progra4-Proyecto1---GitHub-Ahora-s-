@@ -55,11 +55,17 @@
                                 <!--Tenemos que cambiar este botón a submit luego-->
                                 <button type="submit" class="btn btn-primary px-4">Ingresar</button>
                             </div>
+                            <br>
+                            <br>
+                            <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                                Correo o contraseña incorrectos.
+                            </div>
                             <!--Con el class centramos lo que va a ser el botón y le reducimos 4 pixeles para que se ajuste al contenido-->
                         </form>
                     </div>
                 </div>
             </div>
+
         </main>
 
         <footer class="py-2" style="background-color: rgb(36, 47, 47);">

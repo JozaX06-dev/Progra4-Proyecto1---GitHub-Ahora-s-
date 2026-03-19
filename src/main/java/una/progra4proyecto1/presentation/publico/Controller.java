@@ -42,6 +42,7 @@ public class Controller {
     public String procesarLogin(@RequestParam String correo, @RequestParam String clave, HttpSession session) {
         Usuario usuario = service.login(correo, clave);
         if (usuario == null) {
+            
             return "redirect:/login?error";
         }
         session.setAttribute("usuario", usuario);
@@ -52,6 +53,7 @@ public class Controller {
         if (usuarioLoggear.equals("empresa")) return "redirect:/empresa/EmpresaDashboard";
         return "redirect:/";
     }
+
     @PostMapping("/registroEmpresa")
     public String procesarRegistroEmpresa(
             @RequestParam String nombre,

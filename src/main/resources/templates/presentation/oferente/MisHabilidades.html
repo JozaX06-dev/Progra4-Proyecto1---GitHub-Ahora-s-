@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <!-- Este head se usa en todas las páginas-->
         <title>Menu Oferente</title>
@@ -7,12 +7,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     </head>
     <body style="background-color: #080f15; min-height: 100vh; display: flex; flex-direction: column;">
-        <!-- Navegador -->
-        <!-- Navegador -->
         <nav style="background-color: rgb(35, 46, 46);">
             <ul class="nav nav-tabs w-100">
             <li class="nav-item">
-                <a class="nav-link" href="MenuOferente.html">
+                <a class="nav-link" th:href="@{/oferente/MenuOferente}">
                     <i class="fa-solid fa-briefcase" style="color:rgb(10, 202, 154)"></i>
                 </a>
             </li>
@@ -20,19 +18,19 @@
                 <span class="nav-link fw-bold" style="color:rgb(10, 202, 154)">Bolsa de Empleo</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="MenuOferente.html" style="color:rgb(10, 202, 154)">Dashboard</a>
+                <a class="nav-link" th:href="@{/oferente/MenuOferente}" style="color:rgb(10, 202, 154)">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="MisHabilidades.html" style="color:rgb(10, 202, 154)">Mis Habilidades</a>
+                <a class="nav-link active" aria-current="page" th:href="@{/oferente/MisHabilidades}" style="color:rgb(10, 202, 154)">Mis Habilidades</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="MiCV.html" style="color:rgb(10, 202, 154)">Mi CV</a>
             </li>
             <li class="nav-item ms-auto">
-                <span class="nav-link" style="color:rgb(10, 202, 154)">Usuario activo</span>
+                <span class="nav-link" th:text="${oferente.nombre}+' '+${oferente.apellido}" style="color:rgb(10, 202, 154)">Usuario activo</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="../Menu Público/MenuPartePublica.html" style="color:rgb(10, 202, 154)">Salir</a>
+                <a class="nav-link" th:href="@{/salir}" style="color:rgb(10, 202, 154)">Salir</a>
             </li>
             </ul>
         </nav>
