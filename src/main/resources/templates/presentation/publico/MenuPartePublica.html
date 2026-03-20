@@ -39,10 +39,10 @@
                     <div th:each="puesto : ${puestos}" class="col">
                         <div class="card h-100" style="background-color: rgb(35,46,46); border-color:#4a5f5f;">
                             <div class="card-body">
-                                <h5 class="card-title" th:text="${puesto.empresa.nombre}">Nombre de empresa</h5>
-                                <p class="card-text text-white-50" th:text="${puesto.descripcion}">Descripcion</p>
-                                <p class="card-text text-white" th:text="${puesto.salario}">Salario</p>
-                                <button type="button" class="btn btn-outline-light btn-sm"
+                                <h5 th:text="${puesto.empresa.nombre}" style="color:rgb(10,202,154)">Nombre de empresa</h5>
+                                <p class="card-text text-white" th:text="${puesto.descripcion}">Descripcion</p>
+                                <p class="card-text text-white" th:text="${puesto.salario}" style="color:#cdd9d9">Salario</p>
+                                <button type="button" class="btn btn-sm" style="background-color:rgb(10,202,154); color:#080f15; font-weight=700;"
                                         data-bs-toggle="popover"
                                         th:attr="data-bs-title=${puesto.descripcion}, data-bs-content=${puesto.descripcion}">
                                     Ver Detalles

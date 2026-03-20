@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:background-color="http://www.w3.org/1999/xhtml">
     <head>
         <!-- Este head se usa en todas las páginas-->
         <title>Menu Oferente</title>
@@ -24,7 +24,7 @@
                 <a class="nav-link active" aria-current="page" th:href="@{/oferente/MisHabilidades}" style="color:rgb(10, 202, 154)">Mis Habilidades</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="MiCV.html" style="color:rgb(10, 202, 154)">Mi CV</a>
+                <a class="nav-link" th:href="@{/oferente/MiCV}" style="color:rgb(10, 202, 154)">Mi CV</a>
             </li>
             <li class="nav-item ms-auto">
                 <span class="nav-link" th:text="${oferente.nombre}+' '+${oferente.apellido}" style="color:rgb(10, 202, 154)">Usuario activo</span>
@@ -50,17 +50,9 @@
                                         </tr>
                                     </thead>
                                     <tbody background-color="#2e3e3e">
-                                        <tr style="border-bottom: 1px solid #2e3e3e; background-color:#2e3e3e">
-                                            <td background-color:#2e3e3e>Nombre característica</td>
-                                            <td class="text-center" background-color:#2e3e3e>N</td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid #2e3e3e; background-color:#2e3e3e">
-                                            <td background-color:#2e3e3e>Nombre característica</td>
-                                            <td class="text-center" background-color:#2e3e3e>N</td>
-                                        </tr>
-                                        <tr style="border-bottom: 1px solid #2e3e3e; background-color:#2e3e3e">
-                                            <td background-color:#2e3e3e>Nombre característica</td>
-                                            <td class="text-center" background-color:#2e3e3e>N</td>
+                                        <tr th:each="habilidad : ${habilidades}" style="border-bottom: 1px solid #2e3e3e; background-color:#2e3e3e;">
+                                            <td style="color:#cdd9d9; background-color:#2e3e3e;" th:text="${habilidad.caracteristica.nombre}"></td>
+                                            <td class="text-center" style="color:#cdd9d9; background-color:#2e3e3e" th:text="${habilidad.nivel}"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -73,22 +65,16 @@
                                 <h6 style="color:rgb(10,202,154)" class="mb-3">Características</h6>
                                 <span style="color:#8aa8a8; font-size:0.78rem; text-transform:uppercase;">Ruta:</span>
                                 <div class="d-flex flex-wrap gap-1 mt-1 mb-2">
-                                    <a href="#" style="background-color:rgba(10,202,154,0.18); color:rgb(10,202,154); border:1px solid rgba(10,202,154,0.35); padding:1px 10px; border-radius:4px; font-size:0.78rem; text-decoration:none;">Raíces</a>
+                                    <a th:href="@{/oferente/MisHabilidades}" style="background-color:rgba(10,202,154,0.18); color:rgb(10,202,154); border:1px solid rgba(10,202,154,0.35); padding:1px 10px; border-radius:4px; font-size:0.78rem; text-decoration:none;">Raíces</a>
+                                    <span th:if="${padre != null}" style="color:#8aa8a8"> / </span>
+                                    <a th:if="${padre != null}" th:text="${padre.nombre}" th:href="@{/oferente/MisHabilidades}" style="background-color:rgba(10,202,154,0.18); color:rgb(10,202,154); border:1px solid rgba(10,202,154,0.35); padding:1px 10px; border-radius:4px; font-size:0.78rem; text-decoration:none;"></a>
                                 </div>
                                 <hr style="border-color:#2e3e3e; margin: 8px 0;">
                                 <div style="color:#8aa8a8; font-size:0.78rem; text-transform:uppercase;" class="mb-1">Categorías raíz</div>
                                 <ul style="list-style:none; padding:0; margin:0;">
-                                    <li class="d-flex justify-content-between align-items-center py-1" style="border-bottom:1px solid #2e3e3e; color:#cdd9d9; font-size:0.87rem;">
-                                        <span>Nombre categoría</span>
-                                        <button style="background:transparent; border:1px solid #4a5f5f; color:#8aa8a8; padding:1px 10px; font-size:0.75rem; border-radius:4px;">Entrar</button>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-1" style="border-bottom:1px solid #2e3e3e; color:#cdd9d9; font-size:0.87rem;">
-                                        <span>Nombre categoría</span>
-                                        <button style="background:transparent; border:1px solid #4a5f5f; color:#8aa8a8; padding:1px 10px; font-size:0.75rem; border-radius:4px;">Entrar</button>
-                                    </li>
-                                    <li class="d-flex justify-content-between align-items-center py-1" style="color:#cdd9d9; font-size:0.87rem;">
-                                        <span>Nombre categoría</span>
-                                        <button style="background:transparent; border:1px solid #4a5f5f; color:#8aa8a8; padding:1px 10px; font-size:0.75rem; border-radius:4px;">Entrar</button>
+                                    <li th:each="caracteristica : ${caracteristicas}" class="d-flex justify-content-between align-items-center py-1" style="border-bottom:1px solid #2e3e3e; color:#cdd9d9; font-size:0.87rem;">
+                                        <span th:text="${caracteristica.nombre}"></span>
+                                        <a th:if="${tieneHijos[caracteristica.id]}" th:href="@{/oferente/MisHabilidades/{id}(id=${caracteristica.id})}" style="background:transparent; border:1px solid #4a5f5f; color:#8aa8a8; padding:1px 10px; font-size:0.75rem; border-radius:4px;">Entrar</a>
                                     </li>
                                 </ul>
                             </div>
@@ -98,21 +84,25 @@
                         <div class="card h-100" style="background-color: rgb(35,46,46); border-color: #4a5f5f;">
                             <div class="card-body">
                                 <h6 style="color:rgb(10,202,154)" class="mb-3">Agregar Habilidad</h6>
-                                <div class="mb-3">
-                                    <label style="color:#8aa8a8; font-size:0.8rem; text-transform:uppercase;" class="mb-1 d-block">Característica</label>
-                                    <select class="form-select" style="background-color:#0e1a22; border:1px solid #4a5f5f; color:#cdd9d9; font-size:0.87rem;">
-                                        <option value="">-- Seleccione --</option>
-                                        <option>Nombre característica</option>
-                                        <option>Nombre característica</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label style="color:#8aa8a8; font-size:0.8rem; text-transform:uppercase;" class="mb-1 d-block">Nivel (1-5)</label>
-                                    <input type="number" min="1" max="5" class="form-control" style="background-color:#0e1a22; border:1px solid #4a5f5f; color:#cdd9d9; font-size:0.87rem;" placeholder="1 – 5">
-                                </div>
-                                <button type="button" class="btn w-100" style="background-color:rgb(10,202,154); color:#080f15; font-weight:700;">
-                                    <i class="fa-solid fa-plus me-1"></i> Agregar
-                                </button>
+                                <form th:action="@{/oferente/agregarHabilidad}" method="post">
+                                    <div class="mb-3">
+                                        <label style="color:#8aa8a8; font-size:0.8rem; text-transform:uppercase;" class="mb-1 d-block">Característica</label>
+                                        <select class="form-select" name="caracteristicaId" style="background-color:#0e1a22; border:1px solid #4a5f5f; color:#cdd9d9; font-size:0.87rem;">
+                                            <option value="">-- Seleccione --</option>
+                                            <option th:each="nodo : ${nodosFinales}"
+                                                    th:value="${nodo.id}"
+                                                    th:text="${nodo.nombre}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label style="color:#8aa8a8; font-size:0.8rem; text-transform:uppercase;" class="mb-1 d-block">Nivel (1-5)</label>
+                                        <input type="number" min="1" max="5" name="nivel" class="form-control" style="background-color:#0e1a22; border:1px solid #4a5f5f; color:#cdd9d9; font-size:0.87rem;" placeholder="1 – 5">
+                                    </div>
+                                    <button type="submit" class="btn w-100" style="background-color:rgb(10,202,154); color:#080f15; font-weight:700;">
+                                        <i class="fa-solid fa-plus me-1"></i> Agregar
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

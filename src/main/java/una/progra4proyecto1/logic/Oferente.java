@@ -50,4 +50,6 @@ public class Oferente {
     @Column(name = "lugar_residencia", nullable = false, length = 250)
     private String lugarResidencia;
 
+    @Column (name = "cv")
+    private String cv;
 }

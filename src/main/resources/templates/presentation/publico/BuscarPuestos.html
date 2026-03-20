@@ -6,16 +6,15 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     </head>
     <body style="background-color: #080f15; min-height: 100vh; display: flex; flex-direction: column;">
-        <!-- Navegador -->
-        <nav style="background-color: rgb(35, 46, 46);">
-            <ul class="nav nav-tabs w-100">
+    <nav style="background-color: rgb(35, 46, 46);">
+        <ul class="nav nav-tabs w-100">
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/}">
                     <i class="fa-solid fa-briefcase" style="color:rgb(10, 202, 154)"></i>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th::href="@{/}" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
+                <a class="nav-link" th:href="@{/}" style="color:rgb(10, 202, 154)">Bolsa de Empleo</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" th:href="@{/buscarPuestos}" style="color:rgb(10, 202, 154)">Buscar Puestos</a>
@@ -29,105 +28,70 @@
             <li class="nav-item ms-auto">
                 <a class="nav-link" th:href="@{/login}" style="color:rgb(10, 202, 154)">Login</a>
             </li>
-            </ul>
-        </nav>
-
-        <main class="flex-grow-1">
-            <div class="container mt-4">
-                <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        <div class="card" style="background-color: rgb(35,46,46); border-color: #4a5f5f;">
-                            <div class="card-header fw-bold text-white" style="background-color: rgb(25,35,35);">
-                                Buscar puestos por características
-                            </div>
+        </ul>
+    </nav>
+    <main class="flex-grow-1">
+        <div class="container mt-4">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="card" style="background-color: rgb(35,46,46); border-color: #4a5f5f;">
+                        <div class="card-header fw-bold text-white" style="background-color: rgb(25,35,35);">
+                            Buscar puestos por características
+                        </div>
+                        <form th:action="@{/buscarPuestos}" method="post">
                             <div class="card-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Redes" value="Redes" id="redes">
-                                    <label class="form-check-label text-white" for="redes">Redes</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Soporte técnico" value="Soporte técnico" id="soporte">
-                                    <label class="form-check-label text-white" for="soporte">Soporte técnico</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Motores" value="Motores" id="motores">
-                                    <label class="form-check-label text-white" for="motores">Motores</label>
-                                </div>
-                                <div class="form-check ms-4">
-                                    <input class="form-check-input" type="checkbox" name="MySQL" value="MySQL" id="mysql">
-                                    <label class="form-check-label text-white" for="mysql">MySQL</label>
-                                </div>
-                                <div class="form-check ms-4">
-                                    <input class="form-check-input" type="checkbox" name="Oracle" value="Oracle" id="oracle">
-                                    <label class="form-check-label text-white" for="oracle">Oracle</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Ciberseguridad" value="Ciberseguridad" id="ciber">
-                                    <label class="form-check-label text-white" for="ciber">Ciberseguridad</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Lenguajes" value="Lenguajes" id="lenguajes">
-                                    <label class="form-check-label text-white" for="lenguajes">Lenguajes de programación</label>
-                                </div>
-                                <div class="form-check ms-4">
-                                    <input class="form-check-input" type="checkbox" name="C#" value="C#" id="csharp">
-                                    <label class="form-check-label text-white" for="csharp">C#</label>
-                                </div>
-                                <div class="form-check ms-4">
-                                    <input class="form-check-input" type="checkbox" name="Java" value="Java" id="java">
-                                    <label class="form-check-label text-white" for="java">Java</label>
-                                </div>
-                                <div class="form-check ms-4">
-                                    <input class="form-check-input" type="checkbox" name="Python" value="Python" id="python">
-                                    <label class="form-check-label text-white" for="python">Python</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Desarrollo web" value="Desarrollo web" id="web">
-                                    <label class="form-check-label text-white" for="web">Desarrollo web</label>
+                                <div th:each="car : ${caracteristicas}">
+                                    <div th:if="${tieneHijos[car.id]}" class="mt-2 mb-1" style="color:rgb(10,202,154); font-weight:600;" th:text="${car.nombre}"></div>
+                                    <div th:if="${!tieneHijos[car.id]}" class="form-check ms-3">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicasIds" th:value="${car.id}" th:id="'car'+${car.id}">
+                                        <label class="form-check-label text-white" th:for="'car'+${car.id}" th:text="${car.nombre}"></label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer" style="background-color: rgb(25,35,35); border-color: #4a5f5f;">
-                                <button type="button" class="btn px-4" style="background-color:rgb(10,202,154); color:#080f15; font-weight:600;">Buscar</button>
-                                <button type="button" class="btn px-4" style="background-color:rgb(10,202,154); color:#080f15; font-weight:600;">Limpiar</button>
+                                <button type="submit" class="btn px-4" style="background-color:rgb(10,202,154); color:#080f15; font-weight:600;">Buscar</button>
+                                <a th:href="@{/buscarPuestos}" class="btn px-4" style="background-color:#2e3e3e; color:#cdd9d9; font-weight:600;">Limpiar</a>
                             </div>
+                        </form>
+                    </div>
+                    <div class="card mt-4 mb-4" style="background-color: rgb(35,46,46); border-color: #4a5f5f;">
+                        <div class="card-header fw-bold text-white" style="background-color: rgb(25,35,35);">
+                            Resultados de búsqueda
                         </div>
-
-                        <!-- Resultados -->
-                        <div class="card mt-4 mb-4" style="background-color: rgb(35,46,46); border-color: #4a5f5f;">
-                            <div class="card-header fw-bold text-white" style="background-color: rgb(25,35,35);">
-                                Resultados de búsqueda
+                        <div class="card-body">
+                            <div th:if="${resultados == null}">
+                                <p style="color:#8aa8a8;">Seleccioná características y presioná Buscar.</p>
                             </div>
-                            <div class="card-body">
-                                <h5 class="text-white">Nombre de la empresa</h5>
-                                <p class="text-white-50 mb-1">Puesto en la empresa</p>
-                                <p class="text-white">Salario: ... </p>
+                            <div th:if="${resultados != null and #lists.isEmpty(resultados)}">
+                                <p style="color:#8aa8a8;">No se encontraron puestos.</p>
+                            </div>
+                            <div th:each="puesto : ${resultados}" class="mb-3 pb-3" style="border-bottom:1px solid #4a5f5f;">
+                                <h5 style="color:rgb(10,202,154)" th:text="${puesto.empresa.nombre}"></h5>
+                                <p style="color:#cdd9d9; margin:0;" th:text="${puesto.descripcion}"></p>
+                                <p style="color:#8aa8a8;" th:text="'Salario: $' + ${puesto.salario}"></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-        <!-- Footer -->
-        <footer class="py-2" style="background-color: rgb(36, 47, 47);">
-            <div class="d-flex align-items-center px-3">
-                <div class="d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-briefcase text-white"></i>
-                    <span class="text-white fw-bold">Bolsa de Empleo</span>
-                </div>
-                <div class="ms-auto text-end">
-                    <div class="text-white-50" style="font-size: 0.85rem;">
-                        <a href="mailto:jozabad.mejia.esquivel@est.una.ac.cr">
-                            jozabad.mejia.esquivel@est.una.ac.cr
-                        </a>
-                    </div>
-                    <div class="text-white-50" style="font-size: 0.85rem;">
-                        <a href="mailto:jozabad.mejia.esquivel@est.una.ac.cr">
-                            hernan.sanchez.chavez@est.una.ac.cr
-                        </a>
-                    </div>
-                    <div class="text-white-50" style="font-size: 0.85rem;">Créditos: Jozabad Mejía y Hernán Sánchez</div>
-                </div>
+        </div>
+    </main>
+    <footer class="py-2" style="background-color: rgb(36, 47, 47);">
+        <div class="d-flex align-items-center px-3">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-briefcase text-white"></i>
+                <span class="text-white fw-bold">Bolsa de Empleo</span>
             </div>
-        </footer>
+            <div class="ms-auto text-end">
+                <div class="text-white-50" style="font-size: 0.85rem;">
+                    <a href="mailto:jozabad.mejia.esquivel@est.una.ac.cr">jozabad.mejia.esquivel@est.una.ac.cr</a>
+                </div>
+                <div class="text-white-50" style="font-size: 0.85rem;">
+                    <a href="mailto:hernan.sanchez.chavez@est.una.ac.cr">hernan.sanchez.chavez@est.una.ac.cr</a>
+                </div>
+                <div class="text-white-50" style="font-size: 0.85rem;">Créditos: Jozabad Mejía y Hernán Sánchez</div>
+            </div>
+        </div>
+    </footer>
     </body>
 </html>

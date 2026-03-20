@@ -2,6 +2,7 @@ package una.progra4proyecto1.presentation.publico;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import una.progra4proyecto1.logic.Caracteristica;
 import una.progra4proyecto1.logic.Nacionalidad;
 import una.progra4proyecto1.logic.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import una.progra4proyecto1.logic.Usuario;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @org.springframework.stereotype.Controller("usuarios")
-public class Controller {
+public class PublicoController {
     @Autowired
     private Service service;
 
@@ -29,10 +33,6 @@ public class Controller {
     public String mostrarRegistroOferente(Model model){
         model.addAttribute("nacionalidades", service.nacionalidadFindAll());
         return "presentation/publico/RegistroOferente";
-    }
-    @GetMapping("/buscarPuestos")
-    public String mostrarPuestos(){
-        return "presentation/publico/BuscarPuestos";
     }
     @GetMapping("/login")
     public String mostrarLogin(){
@@ -86,5 +86,20 @@ public class Controller {
             Nacionalidad nacionalidad = service.nacionalidadFindById(nacionalidadIso);
             service.registrarOferente(correo,identificacion,nombre,apellido,nacionalidad,telefono,lugarResidencia, clave);
      return "redirect:/";
+    }
+    @GetMapping("/buscarPuestos")
+    public String mostrarBuscarPuestos(Model model){
+        model.addAttribute("caracteristicas", service.caracteristicasRaiz());
+        model.addAttribute("tieneHijos",service.mapTieneHijos(service.caracteristicasRaiz()));
+        return "presentation/publico/BuscarPuestos";
+    }
+    @PostMapping("/buscarPuestos")
+    public String procesarBuscarPuestos(@RequestParam List<Integer> caracteristicasIds, Model model){
+        model.addAttribute("caracteristicas", service.caracteristicasRaiz());
+        model.addAttribute("tieneHijos", service.mapTieneHijos(service.caracteristicasRaiz()));
+        if(caracteristicasIds!=null){
+            model.addAttribute("resultados", service.buscarPuestosPorCaracteristicas(caracteristicasIds));
+        }
+        return "redirect:/buscarPuestos";
     }
 }

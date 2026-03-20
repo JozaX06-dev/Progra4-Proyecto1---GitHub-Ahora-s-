@@ -2,8 +2,10 @@ package una.progra4proyecto1.logic;
 
 import una.progra4proyecto1.data.*;
 import org.springframework.beans.factory.annotation.*;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @org.springframework.stereotype.Service("service")
@@ -14,30 +16,37 @@ public class Service {
     private EmpresaRepository empresaRepository;
     @Autowired
     private AdminRepository adminRepository;
-
+    @Autowired
+    private PuestoRepository puestoRepository;
+    @Autowired
+    private OferenteRepository oferenteRepository;
+    @Autowired
+    private NacionalidadRepository nacionalidadRepository;
+    @Autowired
+    private CaracteristicaRepository caracteristicaRepository;
+    @Autowired
+    private HabilidadRepository habilidadRepository;
+    @Autowired
+    private RequisitoRepository requisitoRepository;
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public Iterable<Usuario> usuarioFindAll() {
         return usuarioRepository.findAll();
     }
-    @Autowired
-    private PuestoRepository puestoRepository;
     public List<Puesto> find5PuestosPublicosActivos() {
         return puestoRepository.find5PuestosPublicosActivos();
     }
-    @Autowired
-    private OferenteRepository oferenteRepository;
     public Iterable<Oferente> oferenteFindAll() {
         return oferenteRepository.findAll();
     }
-
-    @Autowired
-    private NacionalidadRepository nacionalidadRepository;
     public Iterable<Nacionalidad> nacionalidadFindAll() {
         return nacionalidadRepository.findAll();
     }
     public Nacionalidad nacionalidadFindById(String iso) {
         return nacionalidadRepository.findById(iso).orElse(null);
+    }
+    public Caracteristica caracteristicaFindById(int id) {
+        return caracteristicaRepository.findById(id).orElse(null);
     }
     public Oferente oferenteFindById(int usuarioId) {
         return oferenteRepository.findById(usuarioId).orElse(null);
@@ -87,5 +96,55 @@ public class Service {
         if (oferenteRepository.existsById(usuarioId)) return "oferente";
         if (empresaRepository.existsById(usuarioId)) return "empresa";
         return null;
+    }
+    public List<Caracteristica> caracteristicasRaiz(){
+        return caracteristicaRepository.findByPadreIsNull();
+    }
+    public List<Caracteristica> caracteristicasHijos(Caracteristica padre){
+        return caracteristicaRepository.findByPadre(padre);
+    }
+    public List<Habilidad> habilidadesOferente(Oferente oferente){
+        return habilidadRepository.findByOferente(oferente);
+    }
+    public Boolean caracteristicaTieneHijos(Caracteristica caracteristica){
+        return caracteristicaRepository.existsByPadre(caracteristica);
+    }
+    public Map<Integer, Boolean> mapTieneHijos(List<Caracteristica> caracteristicas){
+        Map<Integer, Boolean> map = new HashMap<>();
+        for (Caracteristica caracteristica : caracteristicas) {
+            map.put(caracteristica.getId(), caracteristicaRepository.existsByPadre(caracteristica));
+        }
+        return map;
+    }
+    public List<Caracteristica> caracteristicasNodosFinales(){
+        List<Caracteristica> todas = (List<Caracteristica>) caracteristicaRepository.findAll();
+        List<Caracteristica> finales = new ArrayList<>();
+        for (Caracteristica caracteristica:todas) {
+            if (!caracteristicaRepository.existsByPadre(caracteristica)) {
+                finales.add(caracteristica);
+            }
+        }
+        return finales;
+    }
+    public void agregarHabilidad(Oferente oferente, Caracteristica caracteristica, Integer nivel){
+        Habilidad habilidad = new Habilidad();
+        habilidad.setNivel(nivel);
+        habilidad.setCaracteristica(caracteristica);
+        habilidad.setOferente(oferente);
+        habilidadRepository.save(habilidad);
+    }
+    public void guardarOferente(Oferente oferente){
+        oferenteRepository.save(oferente);
+    }
+    public List<Puesto> buscarPuestosPorCaracteristicas(List<Integer> ids){
+        List<Requisito> requisitos = requisitoRepository.findByCaracteristicaIdIn(ids);
+        List<Puesto> puestos = new ArrayList<>();
+        for (Requisito r:requisitos){
+            Puesto p = r.getPuesto();
+            if(p.getEsPublico()==(byte)1 && p.getActivo()==(byte)1 && !puestos.contains(p)){
+                puestos.add(p);
+            }
+        }
+        return puestos;
     }
 }
