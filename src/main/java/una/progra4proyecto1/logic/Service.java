@@ -147,4 +147,16 @@ public class Service {
         }
         return puestos;
     }
+    public List<Caracteristica> obtenerArbolCaracteristicas(){
+        List<Caracteristica> resultado = new ArrayList<>();
+        List<Caracteristica> raices = caracteristicasRaiz();
+        for(Caracteristica raiz:raices){
+            resultado.add(raiz);
+            List<Caracteristica> hijos  = caracteristicasHijos(raiz);
+            for(Caracteristica hijo:hijos){
+                resultado.add(hijo);
+            }
+        }
+        return resultado;
+    }
 }

@@ -89,17 +89,19 @@ public class PublicoController {
     }
     @GetMapping("/buscarPuestos")
     public String mostrarBuscarPuestos(Model model){
-        model.addAttribute("caracteristicas", service.caracteristicasRaiz());
-        model.addAttribute("tieneHijos",service.mapTieneHijos(service.caracteristicasRaiz()));
-        return "presentation/publico/BuscarPuestos";
+        List<Caracteristica> arbol=service.obtenerArbolCaracteristicas();
+        model.addAttribute("caracteristicas", arbol);
+        model.addAttribute("tieneHijos", service.mapTieneHijos(arbol));
+        return "presentation/publico/buscarPuestos";
     }
     @PostMapping("/buscarPuestos")
     public String procesarBuscarPuestos(@RequestParam List<Integer> caracteristicasIds, Model model){
-        model.addAttribute("caracteristicas", service.caracteristicasRaiz());
-        model.addAttribute("tieneHijos", service.mapTieneHijos(service.caracteristicasRaiz()));
+        List<Caracteristica> arbol=service.obtenerArbolCaracteristicas();
+        model.addAttribute("caracteristicas", arbol);
+        model.addAttribute("tieneHijos", service.mapTieneHijos(arbol));
         if(caracteristicasIds!=null){
             model.addAttribute("resultados", service.buscarPuestosPorCaracteristicas(caracteristicasIds));
         }
-        return "redirect:/buscarPuestos";
+        return "presentation/publico/buscarPuestos";
     }
 }
