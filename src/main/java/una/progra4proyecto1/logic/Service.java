@@ -160,4 +160,111 @@ public class Service {
         }
         return resultado;
     }
+    public Empresa empresaFindById(int usuarioId) {
+        return empresaRepository.findById(usuarioId).orElse(null);
+    }
+
+    public List<Puesto> puestosFindByEmpresa(Empresa empresa) {
+        return puestoRepository.findByEmpresa(empresa);
+    }
+
+    public Puesto puestoFindById(int id) {
+        return puestoRepository.findById(id).orElse(null);
+    }
+
+    public void desactivarPuesto(int puestoId) {
+        Puesto puesto = puestoRepository.findById(puestoId).orElse(null);
+        if (puesto != null) {
+            puesto.setActivo((byte) 0);
+            puestoRepository.save(puesto);
+        }
+    }
+    public void publicarPuesto(Empresa empresa, String descripcion, Double salario,
+                               int esPublico, List<Integer> caracteristicaIds, List<Integer> niveles) {
+        Puesto puesto = new Puesto();
+        puesto.setEmpresa(empresa);
+        puesto.setDescripcion(descripcion);
+        puesto.setSalario(salario);
+        puesto.setEsPublico((byte) esPublico);
+        puesto.setActivo((byte) 1);
+        puestoRepository.save(puesto);
+
+        if (caracteristicaIds != null) {
+            for (int i = 0; i < caracteristicaIds.size(); i++) {
+                int nivel = niveles.get(i);
+                if (nivel > 0) { // ← solo guarda si el nivel es mayor a 0
+                    Requisito req = new Requisito();
+                    req.setPuesto(puesto);
+                    req.setCaracteristica(caracteristicaFindById(caracteristicaIds.get(i)));
+                    req.setNivelDeseado(nivel);
+                    requisitoRepository.save(req);
+                }
+            }
+        }
+    }
+    public List<Map<String, Object>> buscarCandidatos(Puesto puesto) {
+        List<Requisito> requisitos = requisitoRepository.findByPuesto(puesto);
+        if (requisitos.isEmpty()) return new ArrayList<>();
+
+        Map<Integer, Integer> vectorEmpresa = new HashMap<>();
+        for (Requisito req : requisitos) {
+            vectorEmpresa.put(req.getCaracteristica().getId(), req.getNivelDeseado());
+        }
+
+        double normaEmpresa = 0;
+        for (int nivel : vectorEmpresa.values()) {
+            normaEmpresa += nivel * nivel;
+        }
+        normaEmpresa = Math.sqrt(normaEmpresa);
+
+        List<Oferente> todos = (List<Oferente>) oferenteRepository.findAll();
+        List<Map<String, Object>> resultado = new ArrayList<>();
+
+        for (Oferente oferente : todos) {
+            List<Habilidad> habilidades = habilidadRepository.findByOferente(oferente);
+
+            Map<Integer, Integer> vectorOferente = new HashMap<>();
+            for (Requisito req : requisitos) {
+                vectorOferente.put(req.getCaracteristica().getId(), 0); // default 0
+            }
+            for (Habilidad hab : habilidades) {
+                int id = hab.getCaracteristica().getId();
+                if (vectorOferente.containsKey(id)) {
+                    vectorOferente.put(id, hab.getNivel());
+                }
+            }
+
+            double normaOferente = 0;
+            for (int nivel : vectorOferente.values()) {
+                normaOferente += nivel * nivel;
+            }
+            normaOferente = Math.sqrt(normaOferente);
+
+            if (normaOferente == 0) continue;
+
+            double productoPunto = 0;
+            for (int id : vectorEmpresa.keySet()) {
+                productoPunto += vectorEmpresa.get(id) * vectorOferente.getOrDefault(id, 0);
+            }
+            double similitud = (productoPunto / (normaEmpresa * normaOferente)) * 100;
+
+            int cumplidos = 0;
+            for (Requisito req : requisitos) {
+                int nivelOferente = vectorOferente.getOrDefault(req.getCaracteristica().getId(), 0);
+                if (nivelOferente >= req.getNivelDeseado()) cumplidos++;
+            }
+            Map<String, Object> entrada = new HashMap<>();
+            entrada.put("oferente", oferente);
+            entrada.put("cumplidos", cumplidos);
+            entrada.put("total", requisitos.size());
+            entrada.put("similitud", String.format("%.2f", similitud));
+            resultado.add(entrada);
+        }
+        resultado.sort((a, b) -> Double.compare(
+                Double.parseDouble((String) b.get("similitud")),
+                Double.parseDouble((String) a.get("similitud"))
+        ));
+
+        return resultado;
+    }
 }
