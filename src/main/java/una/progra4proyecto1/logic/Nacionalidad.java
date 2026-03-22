@@ -13,7 +13,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "nacionalidad")
-public class Nacionalidad {
+public class
+Nacionalidad {
     @Id
     @Size(max = 2)
     @Column(name = "iso", nullable = false, length = 2)
