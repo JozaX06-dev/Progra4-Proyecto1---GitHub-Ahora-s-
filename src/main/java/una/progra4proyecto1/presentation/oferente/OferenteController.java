@@ -25,9 +25,11 @@ import java.util.Map;
 public class OferenteController {
     @Autowired
     private Service service;
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/oferente/MenuOferente")
-    public String show(Model model, HttpSession session) {
+    public String show(Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Oferente oferente = service.oferenteFindById(usuario.getId());
         model.addAttribute("oferente", oferente);
@@ -35,7 +37,7 @@ public class OferenteController {
     }
 
     @GetMapping("/oferente/MisHabilidades")
-    public String showMisHabilidades(Model model, HttpSession session) {
+    public String showMisHabilidades(Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Oferente oferente = service.oferenteFindById(usuario.getId());
         List<Caracteristica> caracteristicas = service.caracteristicasRaiz();
@@ -48,7 +50,7 @@ public class OferenteController {
     }
 
     @GetMapping("/oferente/MisHabilidades/{id}")
-    public String showHijosCaracteristica(@PathVariable Integer id, Model model, HttpSession session) {
+    public String showHijosCaracteristica(@PathVariable Integer id, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Oferente oferente = service.oferenteFindById(usuario.getId());
         Caracteristica padre = service.caracteristicaFindById(id);
@@ -62,21 +64,21 @@ public class OferenteController {
         return "presentation/oferente/MisHabilidades";
     }
     @PostMapping("/oferente/agregarHabilidad")
-    public String agregarHabilidad(@RequestParam Integer caracteristicaId, @RequestParam  Integer nivel, HttpSession session){
+    public String agregarHabilidad(@RequestParam Integer caracteristicaId, @RequestParam  Integer nivel){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Oferente oferente = service.oferenteFindById(usuario.getId());
         service.agregarHabilidad(oferente,service.caracteristicaFindById(caracteristicaId),nivel);
         return "redirect:/oferente/MisHabilidades";
     }
     @GetMapping("/oferente/MiCV")
-    public String showMiCV(Model model, HttpSession session) {
+    public String showMiCV(Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Oferente oferente = service.oferenteFindById(usuario.getId());
         model.addAttribute("oferente", oferente);
         return "presentation/oferente/MiCV";
     }
     @GetMapping("/oferente/revisarCV")
-    public ResponseEntity<byte[]> revisarCV(HttpSession session) throws IOException {
+    public ResponseEntity<byte[]> revisarCV() throws IOException {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Oferente oferente = service.oferenteFindById(usuario.getId());
         Path ruta = Paths.get(oferente.getCv());
@@ -84,7 +86,7 @@ public class OferenteController {
         return ResponseEntity.ok().header("Content-Type","application/pdf").header("Content-Disposition","inline; filename=cv.pdf").body(contenido);
     }
     @PostMapping("/oferente/subirCV")
-    public String subirCV(@RequestParam MultipartFile cv, HttpSession session) throws IOException {
+    public String subirCV(@RequestParam MultipartFile cv) throws IOException {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Oferente oferente = service.oferenteFindById(usuario.getId());
         oferente.setCv("uploads/cv/"+oferente.getId()+".pdf");
@@ -95,7 +97,7 @@ public class OferenteController {
         return "redirect:/oferente/MiCV";
     }
     @GetMapping("/salir")
-    public String Salir(HttpSession session) {
+    public String Salir() {
         session.invalidate();
         return "redirect:/";
     }

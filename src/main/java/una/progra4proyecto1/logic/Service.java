@@ -28,8 +28,8 @@ public class Service {
     private HabilidadRepository habilidadRepository;
     @Autowired
     private RequisitoRepository requisitoRepository;
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     public Iterable<Usuario> usuarioFindAll() {
         return usuarioRepository.findAll();
     }
@@ -98,6 +98,7 @@ public class Service {
         return null;
     }
     public List<Caracteristica> caracteristicasRaiz(){
+
         return caracteristicaRepository.findByPadreIsNull();
     }
     public List<Caracteristica> caracteristicasHijos(Caracteristica padre){
