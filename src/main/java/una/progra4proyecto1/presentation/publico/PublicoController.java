@@ -18,31 +18,34 @@ public class PublicoController {
     @Autowired
     private Service service;
 
+    //Muestra el menu principal, donde van a aparecer los ultimos 5 puestos publicos disponibles
     @GetMapping("/")
     public String show(Model model) {
         model.addAttribute("usuarios", service.usuarioFindAll());
         model.addAttribute("puestos", service.find5PuestosPublicosActivos());
         return "presentation/publico/MenuPartePublica";
     }
-
+    //Muestra el menu para registrar una empresa
     @GetMapping("/registroEmpresa")
     public String mostrarRegistroEmpresa(){
         return "presentation/publico/RegistroEmpresa";
     }
+    //Muestra el menu para registrar un oferente
     @GetMapping("/registroOferente")
     public String mostrarRegistroOferente(Model model){
         model.addAttribute("nacionalidades", service.nacionalidadFindAll());
         return "presentation/publico/RegistroOferente";
     }
+    //Muestra el menu de Login
     @GetMapping("/login")
     public String mostrarLogin(){
         return "presentation/publico/Login";
     }
+    //Metodo que se encarga de leer el correo y contraseña del usuario, redirecciona según el tipo de usuario ingresado y maneja errores en caso de no encontrar el usuario o que sus datos no coincidas
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String correo, @RequestParam String clave, HttpSession session) {
         Usuario usuario = service.login(correo, clave);
         if (usuario == null) {
-            
             return "redirect:/login?error";
         }
         session.setAttribute("usuario", usuario);
@@ -53,7 +56,7 @@ public class PublicoController {
         if (usuarioLoggear.equals("empresa")) return "redirect:/empresa/EmpresaDashboard";
         return "redirect:/";
     }
-
+    //Metodo que se encarga de registrar una empresa y guardarla en la base de datos
     @PostMapping("/registroEmpresa")
     public String procesarRegistroEmpresa(
             @RequestParam String nombre,
@@ -69,6 +72,7 @@ public class PublicoController {
         service.registrarEmpresa(nombre, correo, localizacion, telefono, descripcion, clave);
         return "redirect:/";
     }
+    //Procesa el registro de Oferente de la misma manera que la Empresa
     @PostMapping("/registroOferente")
     public String procesarRegistroOferente(
             @RequestParam String correo,
@@ -87,6 +91,7 @@ public class PublicoController {
             service.registrarOferente(correo,identificacion,nombre,apellido,nacionalidad,telefono,lugarResidencia, clave);
      return "redirect:/";
     }
+    //Metodo que muestra el menu para buscar puestos, mostrando una lista de caracteristicas, tanto las padres como las caracteristicas hijos, mapeandolas por medio de un metodo del service
     @GetMapping("/buscarPuestos")
     public String mostrarBuscarPuestos(Model model){
         List<Caracteristica> arbol=service.obtenerArbolCaracteristicas();
@@ -94,6 +99,7 @@ public class PublicoController {
         model.addAttribute("tieneHijos", service.mapTieneHijos(arbol));
         return "presentation/publico/buscarPuestos";
     }
+    //Metodo que busca los puestos que se ajusten a las caracteristicas seleccionadas
     @PostMapping("/buscarPuestos")
     public String procesarBuscarPuestos(@RequestParam List<Integer> caracteristicasIds, Model model){
         List<Caracteristica> arbol=service.obtenerArbolCaracteristicas();

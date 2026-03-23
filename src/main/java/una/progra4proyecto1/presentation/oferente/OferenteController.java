@@ -28,6 +28,7 @@ public class OferenteController {
     @Autowired
     private HttpSession session;
 
+    //Mostrar Dashboard de los oferentes
     @GetMapping("/oferente/MenuOferente")
     public String show(Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -35,7 +36,7 @@ public class OferenteController {
         model.addAttribute("oferente", oferente);
         return "presentation/oferente/MenuOferente";
     }
-
+    //Mostrar menú de las habilidades del Oferente
     @GetMapping("/oferente/MisHabilidades")
     public String showMisHabilidades(Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -48,7 +49,7 @@ public class OferenteController {
         model.addAttribute("nodosFinales", service.caracteristicasNodosFinales());
         return "presentation/oferente/MisHabilidades";
     }
-
+    //Metodo para mostrar los hijos de las caracteristicas, es decir los nodos del árbol que no tienen más nodos hijos y que vienen de un nodo padre
     @GetMapping("/oferente/MisHabilidades/{id}")
     public String showHijosCaracteristica(@PathVariable Integer id, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -63,6 +64,7 @@ public class OferenteController {
         model.addAttribute("nodosFinales", service.caracteristicasNodosFinales());
         return "presentation/oferente/MisHabilidades";
     }
+    //Metódo para agregar y guardar habilidades en el usuario Oferente que tenga sesión iniciada
     @PostMapping("/oferente/agregarHabilidad")
     public String agregarHabilidad(@RequestParam Integer caracteristicaId, @RequestParam  Integer nivel){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -70,6 +72,7 @@ public class OferenteController {
         service.agregarHabilidad(oferente,service.caracteristicaFindById(caracteristicaId),nivel);
         return "redirect:/oferente/MisHabilidades";
     }
+    //Muestra el menu de Curriculums, donde hay botones para subir y revisar pdfs
     @GetMapping("/oferente/MiCV")
     public String showMiCV(Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -77,6 +80,7 @@ public class OferenteController {
         model.addAttribute("oferente", oferente);
         return "presentation/oferente/MiCV";
     }
+    //Metodo para poder revisar el pdf curriculum que haya subido el oferente
     @GetMapping("/oferente/revisarCV")
     public ResponseEntity<byte[]> revisarCV() throws IOException {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -85,6 +89,7 @@ public class OferenteController {
         byte[] contenido = Files.readAllBytes(ruta);
         return ResponseEntity.ok().header("Content-Type","application/pdf").header("Content-Disposition","inline; filename=cv.pdf").body(contenido);
     }
+    //Metodo para subir un pdf de curriculum, si ya existe un pdf entonces lo reemplaza
     @PostMapping("/oferente/subirCV")
     public String subirCV(@RequestParam MultipartFile cv) throws IOException {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
@@ -96,6 +101,7 @@ public class OferenteController {
         cv.transferTo(ruta);
         return "redirect:/oferente/MiCV";
     }
+    //Metodo para cerrar sesion del usuario
     @GetMapping("/salir")
     public String Salir() {
         session.invalidate();
