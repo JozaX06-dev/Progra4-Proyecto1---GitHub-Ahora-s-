@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
-@org.springframework.stereotype.Controller
+@org.springframework.stereotype.Controller("empresas")
 public class EmpresaController {
 
     @Autowired

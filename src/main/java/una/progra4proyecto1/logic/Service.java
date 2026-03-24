@@ -266,4 +266,38 @@ public class Service {
 
         return resultado;
     }
+
+    public Administrador adminFindById(int usuarioId) {
+        return adminRepository.findById(usuarioId).orElse(null);
+    }
+
+    public List<Empresa> empresasPendientes(){
+        return empresaRepository.findByUsuarioActivo((byte) 0);
+    }
+
+    public List<Oferente> oferentesPendientes(){
+        return oferenteRepository.findByUsuarioActivo((byte) 0);
+    }
+
+    public void aprobarEmpresa(int usuarioId){
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+        if (usuario != null){
+            usuario.setActivo((byte) 1);
+            usuarioRepository.save(usuario);
+        }
+    }
+
+    public void aprobarOferente(int usuarioId){
+        aprobarEmpresa(usuarioId);
+    }
+
+    public void crearCaracteristica(String nombre, Integer padreId) {
+        Caracteristica c = new Caracteristica();
+        c.setNombre(nombre);
+        if (padreId != null) {
+            c.setPadre(caracteristicaFindById(padreId));
+        }
+        caracteristicaRepository.save(c);
+    }
+
 }
