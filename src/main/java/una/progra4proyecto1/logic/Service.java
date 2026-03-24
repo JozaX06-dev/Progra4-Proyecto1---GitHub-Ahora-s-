@@ -51,11 +51,11 @@ public class Service {
     public Oferente oferenteFindById(int usuarioId) {
         return oferenteRepository.findById(usuarioId).orElse(null);
     }
-    public void registrarEmpresa(String nombre, String correo, String localizacion, String telefono, String descripcion, String clave){
+    public void registrarEmpresa(String nombre, String correo, String localizacion, String telefono, String descripcion){
         Usuario usuario = new Usuario();
         usuario.setCorreo(correo);
         usuario.setActivo((byte) 0);
-        usuario.setClave(encoder.encode(clave));
+        usuario.setClave("");
         usuarioRepository.save(usuario);
 
         Empresa empresa = new Empresa();
@@ -67,11 +67,11 @@ public class Service {
         empresaRepository.save(empresa);
     }
 
-    public void registrarOferente(String correo, String identificacion, String nombre, String apellido, Nacionalidad nacionalidad, String telefono, String lugarResidencia, String clave){
+    public void registrarOferente(String correo, String identificacion, String nombre, String apellido, Nacionalidad nacionalidad, String telefono, String lugarResidencia){
         Usuario usuario = new Usuario();
         usuario.setCorreo(correo);
         usuario.setActivo((byte) 0);
-        usuario.setClave(encoder.encode(clave));
+        usuario.setClave("");
         usuarioRepository.save(usuario);
 
         Oferente oferente = new Oferente();

@@ -63,13 +63,8 @@ public class PublicoController {
             @RequestParam String correo,
             @RequestParam String localizacion,
             @RequestParam String telefono,
-            @RequestParam String descripcion,
-            @RequestParam String clave,
-            @RequestParam String claveConfirmar){
-        if (!clave.equals(claveConfirmar)) {
-            return "redirect:/registroEmpresa?error";
-        }
-        service.registrarEmpresa(nombre, correo, localizacion, telefono, descripcion, clave);
+            @RequestParam String descripcion){
+        service.registrarEmpresa(nombre, correo, localizacion, telefono, descripcion);
         return "redirect:/";
     }
     //Procesa el registro de Oferente de la misma manera que la Empresa
@@ -81,14 +76,10 @@ public class PublicoController {
             @RequestParam String apellido,
             @RequestParam String nacionalidadIso,
             @RequestParam String telefono,
-            @RequestParam String lugarResidencia,
-            @RequestParam String clave,
-            @RequestParam String claveConfirmar){
-        if (!clave.equals(claveConfirmar)) {
-            return "redirect:/registroOferente?error";
-        }
+            @RequestParam String lugarResidencia){
+
             Nacionalidad nacionalidad = service.nacionalidadFindById(nacionalidadIso);
-            service.registrarOferente(correo,identificacion,nombre,apellido,nacionalidad,telefono,lugarResidencia, clave);
+            service.registrarOferente(correo,identificacion,nombre,apellido,nacionalidad,telefono,lugarResidencia);
      return "redirect:/";
     }
     //Metodo que muestra el menu para buscar puestos, mostrando una lista de caracteristicas, tanto las padres como las caracteristicas hijos, mapeandolas por medio de un metodo del service
