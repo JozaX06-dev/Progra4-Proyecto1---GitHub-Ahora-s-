@@ -58,7 +58,7 @@
                         <td th:text="${candidato['cumplidos']} + ' / ' + ${candidato['total']}"></td>
                         <td th:text="${candidato['similitud']} + '%'"></td>
                         <td class="text-center">
-                            <a th:href="@{/empresa/Verdetalles(oferenteId=${candidato['oferente'].usuario.id}, puestoId=${puesto.id})}"
+                            <a th:href="@{/empresa/DetalleOferente(oferenteId=${candidato['oferente'].usuario.id}, puestoId=${puesto.id})}"
                                class="btn btn-sm" style="background-color:#1c6e5a; color:white;">
                                 Ver detalle
                             </a>

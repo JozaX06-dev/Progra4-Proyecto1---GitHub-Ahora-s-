@@ -41,9 +41,16 @@
                         <form th:action="@{/buscarPuestos}" method="post">
                             <div class="card-body">
                                 <div th:each="car : ${caracteristicas}">
-                                    <div th:if="${tieneHijos[car.id]}" class="mt-2 mb-1" style="color:rgb(10,202,154); font-weight:600;" th:text="${car.nombre}"></div>
-                                    <div th:if="${!tieneHijos[car.id]}" class="form-check ms-3">
-                                        <input class="form-check-input" type="checkbox" name="caracteristicasIds" th:value="${car.id}" th:id="'car'+${car.id}">
+                                    <div th:if="${tieneHijos[car.id]}"
+                                         class="mt-2 mb-1 fw-bold"
+                                         th:style="'color:rgb(10,202,154); margin-left:' + ${niveles[car.id] * 20} + 'px'"
+                                         th:text="${car.nombre}"></div>
+                                    <div th:if="${!tieneHijos[car.id]}" class="form-check"
+                                         th:style="'margin-left:' + ${niveles[car.id] * 20} + 'px'">
+                                        <input class="form-check-input" type="checkbox" name="caracteristicasIds"
+                                               th:value="${car.id}"
+                                               th:id="'car'+${car.id}"
+                                               th:checked="${seleccionados != null && seleccionados.contains(car.id)}">
                                         <label class="form-check-label text-white" th:for="'car'+${car.id}" th:text="${car.nombre}"></label>
                                     </div>
                                 </div>
@@ -68,7 +75,10 @@
                             <div th:each="puesto : ${resultados}" class="mb-3 pb-3" style="border-bottom:1px solid #4a5f5f;">
                                 <h5 style="color:rgb(10,202,154)" th:text="${puesto.empresa.nombre}"></h5>
                                 <p style="color:#cdd9d9; margin:0;" th:text="${puesto.descripcion}"></p>
-                                <p style="color:#8aa8a8;" th:text="'Salario: $' + ${puesto.salario}"></p>
+                                <p style="color:#8aa8a8;">
+                                    Salario: $ <span th:text="${puesto.salario}"></span> USD
+                                    — ₡ <span th:text="${#numbers.formatDecimal(puesto.salario * tipoCambio, 0, 'COMMA', 0, 'POINT')}"></span> CRC
+                                </p>
                             </div>
                         </div>
                     </div>

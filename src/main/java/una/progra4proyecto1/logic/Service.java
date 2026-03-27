@@ -150,15 +150,16 @@ public class Service {
     }
     public List<Caracteristica> obtenerArbolCaracteristicas(){
         List<Caracteristica> resultado = new ArrayList<>();
-        List<Caracteristica> raices = caracteristicasRaiz();
-        for(Caracteristica raiz:raices){
-            resultado.add(raiz);
-            List<Caracteristica> hijos  = caracteristicasHijos(raiz);
-            for(Caracteristica hijo:hijos){
-                resultado.add(hijo);
-            }
+        for(Caracteristica raiz : caracteristicasRaiz()){
+            agregarRecursivo(raiz, resultado);
         }
         return resultado;
+    }
+    private void agregarRecursivo(Caracteristica nodo, List<Caracteristica> lista){
+        lista.add(nodo);
+        for(Caracteristica hijo : caracteristicasHijos(nodo)){
+            agregarRecursivo(hijo, lista);
+        }
     }
     public Empresa empresaFindById(int usuarioId) {
         return empresaRepository.findById(usuarioId).orElse(null);
@@ -300,5 +301,29 @@ public class Service {
         }
         caracteristicaRepository.save(c);
     }
-
+    public Double obtenerTipoCambioVenta() {
+        try {
+            org.springframework.web.client.RestTemplate restTemplate =
+                    new org.springframework.web.client.RestTemplate();
+            String url = "https://api.hacienda.go.cr/indicadores/tc/dolar";
+            java.util.Map response = restTemplate.getForObject(url, java.util.Map.class);
+            java.util.Map venta = (java.util.Map) response.get("venta");
+            return Double.parseDouble(venta.get("valor").toString());
+        } catch (Exception e) {
+            return 650.0;
+        }
+    }
+    public Map<Integer, Integer> mapNiveles(List<Caracteristica> caracteristicas){
+        Map<Integer, Integer> niveles = new HashMap<>();
+        for(Caracteristica c : caracteristicas){
+            int nivel = 0;
+            Caracteristica actual = c;
+            while(actual.getPadre() != null){
+                nivel++;
+                actual = actual.getPadre();
+            }
+            niveles.put(c.getId(), nivel);
+        }
+        return niveles;
+    }
 }

@@ -23,6 +23,7 @@ public class PublicoController {
     public String show(Model model) {
         model.addAttribute("usuarios", service.usuarioFindAll());
         model.addAttribute("puestos", service.find5PuestosPublicosActivos());
+        model.addAttribute("tipoCambio", service.obtenerTipoCambioVenta());
         return "presentation/publico/MenuPartePublica";
     }
     //Muestra el menu para registrar una empresa
@@ -88,17 +89,22 @@ public class PublicoController {
         List<Caracteristica> arbol=service.obtenerArbolCaracteristicas();
         model.addAttribute("caracteristicas", arbol);
         model.addAttribute("tieneHijos", service.mapTieneHijos(arbol));
+        model.addAttribute("tipoCambio", service.obtenerTipoCambioVenta());
+        model.addAttribute("niveles", service.mapNiveles(arbol));
         return "presentation/publico/buscarPuestos";
     }
     //Metodo que busca los puestos que se ajusten a las caracteristicas seleccionadas
     @PostMapping("/buscarPuestos")
-    public String procesarBuscarPuestos(@RequestParam List<Integer> caracteristicasIds, Model model){
-        List<Caracteristica> arbol=service.obtenerArbolCaracteristicas();
+    public String procesarBuscarPuestos(@RequestParam(required = false) List<Integer> caracteristicasIds, Model model){
+        List<Caracteristica> arbol = service.obtenerArbolCaracteristicas();
         model.addAttribute("caracteristicas", arbol);
         model.addAttribute("tieneHijos", service.mapTieneHijos(arbol));
-        if(caracteristicasIds!=null){
+        model.addAttribute("tipoCambio", service.obtenerTipoCambioVenta());
+        model.addAttribute("seleccionados", caracteristicasIds != null ? caracteristicasIds : new java.util.ArrayList<>());
+        if(caracteristicasIds != null){
             model.addAttribute("resultados", service.buscarPuestosPorCaracteristicas(caracteristicasIds));
         }
+        model.addAttribute("niveles", service.mapNiveles(arbol));
         return "presentation/publico/buscarPuestos";
     }
 }

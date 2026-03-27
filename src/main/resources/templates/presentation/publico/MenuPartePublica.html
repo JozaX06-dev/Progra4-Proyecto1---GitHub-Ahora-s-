@@ -41,8 +41,13 @@
                             <div class="card-body">
                                 <h5 th:text="${puesto.empresa.nombre}" style="color:rgb(10,202,154)">Nombre de empresa</h5>
                                 <p class="card-text text-white" th:text="${puesto.descripcion}">Descripcion</p>
-                                <p class="card-text text-white" th:text="${puesto.salario}" style="color:#cdd9d9">Salario</p>
-                                <button type="button" class="btn btn-sm" style="background-color:rgb(10,202,154); color:#080f15; font-weight=700;"
+                                <p class="card-text" style="color:#cdd9d9">
+                                    $ <span th:text="${puesto.salario}"></span> USD
+                                </p>
+                                <p class="card-text" style="color:#8aa8a8; font-size:0.9rem;">
+                                    ₡ <span th:text="${#numbers.formatDecimal(puesto.salario * tipoCambio, 0, 'COMMA', 0, 'POINT')}"></span> CRC
+                                </p>
+                                <button type="button" class="btn btn-sm" style="background-color:rgb(10,202,154); color:#080f15; font-weight:700;"
                                         data-bs-toggle="popover"
                                         th:attr="data-bs-title=${puesto.descripcion}, data-bs-content=${puesto.descripcion}">
                                     Ver Detalles
