@@ -86,12 +86,31 @@ public class AdminController {
     }
 
     @GetMapping("/admin/Reportes")
-    public String reportes(Model model, HttpSession session) {
+    public String reportes(@RequestParam(required = false) Integer anio,
+                           Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         Administrador admin = service.adminFindById(usuario.getId());
+        int anioActual = java.time.Year.now().getValue();
+
         model.addAttribute("admin", admin);
-        model.addAttribute("annioActual", java.time.Year.now().getValue());
+        model.addAttribute("anioActual", anioActual);
+        model.addAttribute("anioAnterior", anioActual - 1);
+        model.addAttribute("anioAnteAnterior", anioActual - 2);
+        if (anio != null) {
+            model.addAttribute("anioSeleccionado", anio);
+            model.addAttribute("porMes", service.puestosPorMes(anio));
+        }
         return "presentation/admin/Reportes";
+    }
+
+    @GetMapping("/admin/generarReporte")
+    public void generarReporte(@RequestParam Integer anio,
+                               jakarta.servlet.http.HttpServletResponse response) throws Exception {
+        byte[] pdf = service.generarReportePDF(anio);
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "inline; filename=reporte_" + anio + ".pdf");
+        response.getOutputStream().write(pdf);
+        response.getOutputStream().flush(); // ← asegurate de tener este flush
     }
 
 

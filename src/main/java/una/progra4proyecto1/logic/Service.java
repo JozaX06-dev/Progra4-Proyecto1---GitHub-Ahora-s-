@@ -6,6 +6,19 @@ import org.springframework.beans.factory.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.itextpdf.kernel.colors.DeviceGray;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
+import java.io.ByteArrayOutputStream;
+import java.util.LinkedHashMap;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @org.springframework.stereotype.Service("service")
@@ -188,6 +201,7 @@ public class Service {
         puesto.setSalario(salario);
         puesto.setEsPublico((byte) esPublico);
         puesto.setActivo((byte) 1);
+        puesto.setFechaCreacion(java.time.LocalDate.now());
         puestoRepository.save(puesto);
 
         if (caracteristicaIds != null) {
@@ -325,5 +339,81 @@ public class Service {
             niveles.put(c.getId(), nivel);
         }
         return niveles;
+    }
+    public byte[] generarReportePDF(int anio) throws Exception {
+        List<Puesto> todos = puestoRepository.findByAnio(anio);
+
+        Map<Integer, Long> porMes = new LinkedHashMap<>();
+        for (int i = 1; i <= 12; i++) porMes.put(i, 0L);
+        for (Puesto p : todos) {
+            int mes = p.getFechaCreacion().getMonthValue();
+            porMes.put(mes, porMes.get(mes) + 1);
+        }
+
+        String[] nombresMeses = {
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        };
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        PdfWriter writer = new PdfWriter(baos);
+        PdfDocument pdf = new PdfDocument(writer);
+        Document doc = new Document(pdf);
+
+        doc.add(new Paragraph("Reporte de Puestos por Mes — " + anio)
+                .setFontSize(18)
+                .setBold()
+                .setTextAlignment(TextAlignment.CENTER)
+                .setMarginBottom(20));
+
+        Table tabla = new Table(new float[]{3, 2});
+        tabla.setWidth(UnitValue.createPercentValue(100));
+
+        tabla.addHeaderCell(new Cell()
+                .add(new Paragraph("Mes").setBold())
+                .setBackgroundColor(new DeviceRgb(10, 202, 154))
+                .setFontColor(DeviceGray.BLACK));
+        tabla.addHeaderCell(new Cell()
+                .add(new Paragraph("Cantidad de puestos").setBold())
+                .setBackgroundColor(new DeviceRgb(10, 202, 154))
+                .setFontColor(DeviceGray.BLACK));
+
+        for (int i = 1; i <= 12; i++) {
+            tabla.addCell(new Cell().add(new Paragraph(nombresMeses[i - 1])));
+            tabla.addCell(new Cell()
+                    .add(new Paragraph(String.valueOf(porMes.get(i))))
+                    .setTextAlignment(TextAlignment.CENTER));
+        }
+
+        long total = porMes.values().stream().mapToLong(Long::longValue).sum();
+        tabla.addCell(new Cell()
+                .add(new Paragraph("Total").setBold())
+                .setBackgroundColor(new DeviceRgb(220, 220, 220)));
+        tabla.addCell(new Cell()
+                .add(new Paragraph(String.valueOf(total)).setBold())
+                .setBackgroundColor(new DeviceRgb(220, 220, 220))
+                .setTextAlignment(TextAlignment.CENTER));
+
+        doc.add(tabla);
+        doc.close();
+
+        return baos.toByteArray();
+    }
+
+    public Map<String, Long> puestosPorMes(int anio) {
+        List<Puesto> todos = puestoRepository.findByAnio(anio);
+        String[] nombresMeses = {
+                "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        };
+        Map<String, Long> porMes = new LinkedHashMap<>();
+        for (String mes : nombresMeses) porMes.put(mes, 0L);
+        for (Puesto p : todos) {
+            int mes = p.getFechaCreacion().getMonthValue();
+            String nombreMes = nombresMeses[mes - 1];
+            porMes.put(nombreMes, porMes.get(nombreMes) + 1);
+        }
+        return porMes;
     }
 }
