@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import una.progra4proyecto1.logic.*;
 
 import java.io.IOException;
@@ -33,8 +34,10 @@ public class AdminController {
     }
 
     @PostMapping("/admin/aprobarEmpresa")
-    public String aprobarEmpresa(@RequestParam Integer usuarioId) {
-        service.aprobarEmpresa(usuarioId);
+    public String aprobarEmpresa(@RequestParam Integer usuarioId, RedirectAttributes ra) {
+        String clave = service.aprobarEmpresa(usuarioId);
+        ra.addFlashAttribute("claveGenerada", clave);
+        ra.addFlashAttribute("tipoAprobado", "Empresa");
         return "redirect:/admin/EmpresasPendientes";
     }
 
@@ -46,9 +49,12 @@ public class AdminController {
         model.addAttribute("oferentes", service.oferentesPendientes());
         return "presentation/admin/OferentesPendientes";
     }
+
     @PostMapping("/admin/aprobarOferente")
-    public String aprobarOferente(@RequestParam Integer usuarioId) {
-        service.aprobarOferente(usuarioId);
+    public String aprobarOferente(@RequestParam Integer usuarioId, RedirectAttributes ra) {
+        String clave = service.aprobarOferente(usuarioId);
+        ra.addFlashAttribute("claveGenerada", clave);
+        ra.addFlashAttribute("tipoAprobado", "Oferente");
         return "redirect:/admin/OferentesPendientes";
     }
 

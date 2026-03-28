@@ -33,6 +33,21 @@
                 <div th:if="${#lists.isEmpty(oferentes)}">
                     <p style="color:#8aa8a8;">No hay oferentes pendientes de aprobación.</p>
                 </div>
+                <!-- Mostrar contraseña generada después de aprobar -->
+                <div th:if="${claveGenerada != null}"
+                     class="alert d-flex align-items-center justify-content-between mb-3"
+                     style="background-color:rgba(10,202,154,0.15); border:1px solid rgb(10,202,154); color:#cdd9d9;">
+                    <div>
+                        <i class="fa-solid fa-key me-2" style="color:rgb(10,202,154)"></i>
+                        <strong th:text="${tipoAprobado}"></strong> aprobado/a.
+                        Contraseña generada:
+                        <code style="background-color:#0e1a22; padding:2px 8px; border-radius:4px;
+                     color:rgb(10,202,154); font-size:1rem; letter-spacing:1px;"
+                              th:text="${claveGenerada}">
+                        </code>
+                    </div>
+                    <small style="color:#8aa8a8;">Copiá esta clave antes de salir, no se volverá a mostrar.</small>
+                </div>
                 <table th:if="${!#lists.isEmpty(oferentes)}"
                        class="table table-borderless" style="color:#cdd9d9; font-size:0.9rem;">
                     <thead>

@@ -295,16 +295,20 @@ public class Service {
         return oferenteRepository.findByUsuarioActivo((byte) 0);
     }
 
-    public void aprobarEmpresa(int usuarioId){
+    public String aprobarUsuarioConClave(int usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
-        if (usuario != null){
+        if (usuario != null) {
+            String claveAleatoria = generarClaveAleatoria();
+            usuario.setClave(encoder.encode(claveAleatoria));
             usuario.setActivo((byte) 1);
             usuarioRepository.save(usuario);
+            return claveAleatoria;
         }
+        return null;
     }
+    public String aprobarEmpresa(int usuarioId) {return aprobarUsuarioConClave(usuarioId);}
 
-    public void aprobarOferente(int usuarioId){
-        aprobarEmpresa(usuarioId);
+    public String aprobarOferente(int usuarioId){ return aprobarUsuarioConClave(usuarioId);
     }
 
     public void crearCaracteristica(String nombre, Integer padreId) {
@@ -415,5 +419,12 @@ public class Service {
             porMes.put(nombreMes, porMes.get(nombreMes) + 1);
         }
         return porMes;
+    }
+    private String generarClaveAleatoria() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        java.security.SecureRandom rnd = new java.security.SecureRandom();
+        StringBuilder sb = new StringBuilder(10);
+        for (int i = 0; i < 10; i++) sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        return sb.toString();
     }
 }
